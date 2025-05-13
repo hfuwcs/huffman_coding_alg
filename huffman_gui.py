@@ -17,13 +17,12 @@ class TextRedirector(io.StringIO):
         self.widget = widget
 
     def write(self, msg):
-        # Đảm bảo cập nhật widget trong luồng chính của Tkinter
         self.widget.after(0, self._write_to_widget, msg)
 
     def _write_to_widget(self, msg):
         self.widget.configure(state='normal')
         self.widget.insert(tk.END, msg)
-        self.widget.see(tk.END) # Cuộn xuống cuối
+        self.widget.see(tk.END)
         self.widget.configure(state='disabled')
 
     def flush(self):
@@ -199,18 +198,11 @@ class HuffmanApp:
         self.decode_btn.config(state=tk.NORMAL if can_decode else tk.DISABLED)
 
         # Chỉ cho phép so sánh nếu có ảnh gốc VÀ ảnh đã giải mã (đường dẫn tồn tại)
-        # Giả sử self.last_decoded_path lưu đường dẫn thực tế sau khi giải mã thành công
         original_exists = bool(self.original_image_path.get())
         try:
              decoded_exists = hasattr(self, 'last_decoded_path') and bool(self.last_decoded_path) and os.path.exists(self.last_decoded_path)
         except: # Bắt lỗi nếu self.last_decoded_path chưa được tạo
              decoded_exists = False
-
-        # Hoặc cách đơn giản hơn: chỉ cần đường dẫn được đặt, hàm compare sẽ kiểm tra file tồn tại
-        # decoded_path_set = bool(self.decoded_image_path.get())
-        # can_compare = original_exists and decoded_path_set
-
-        # Cách chặt chẽ hơn: kiểm tra cả file tồn tại
         try:
              original_file_exists = os.path.exists(self.original_image_path.get())
         except: original_file_exists = False
