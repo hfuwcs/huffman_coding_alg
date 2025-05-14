@@ -427,7 +427,7 @@ def decode_image(encoded_path, output_path):
              print(f"Không nhận dạng được định dạng từ '{output_ext}', mặc định lưu thành PNG.")
              default_output_path = os.path.splitext(output_path)[0] + ".png"
              decoded_image.save(default_output_path, format='PNG')
-             output_path = default_output_pat
+             output_path = default_output_path
 
         print(f"Đã lưu ảnh giải mã: {output_path}")
         print(f"--- Giải mã hoàn tất ---")
